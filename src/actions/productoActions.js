@@ -24,15 +24,15 @@ export function crearNuevoProductoAction(producto) {
 
         try {
             // Insertar en la API
-            await clienteAxios.post('/producto', producto);
+            await clienteAxios.post('/productos', producto);
 
             // Si todo sale bien, actualizar el state
             dispatch( agregarProductoExito(producto) );
 
             // Alerta
             Swal.fire(
-                'Correcto',
-                'El producto se agregó correctamente',
+                'Deleted!',
+                'Your file has been deleted.',
                 'success'
             )
         } catch (error) {
@@ -44,8 +44,8 @@ export function crearNuevoProductoAction(producto) {
             // Alerta de error
             Swal.fire({
                 icon: 'error',
-                title: 'Hubo un error',
-                text: 'Hubo un error, intenta de nuevo'
+                title: 'Oops...',
+                text: 'Something went wrong!'
             })
         }
     }
@@ -111,7 +111,7 @@ export function borrarProductoAction(id) {
             Swal.fire(
                 'Deleted!',
                 'Your file has been deleted.',
-                'Success'
+                'success'
             )
 
         } catch (error) {
@@ -150,18 +150,28 @@ const obtenerProductosEditarAction = producto => ({
 // Edita un registro en la API y state
 export function editarProductoAction(producto) {
     return async (dispatch) => {
-        dispatch( editarProducto(producto) );
+        dispatch( editarProducto() );
 
         try {
-            const resultado = await clienteAxios.put(`/productos/${producto.id}`, producto);
-            console.log(resultado);
+            await clienteAxios.put(`/productos/${producto.id}`, producto);
+            dispatch( editarProductoExito(producto) );
         } catch (error) {
-            
+            console.log(error);
+            dispatch( editarProductoError() );
         }
     }
 }
 
-const editarProducto = producto => ({
-    type: COMENZAR_EDICION_PRODUCTO,
+const editarProducto = () => ({
+    type: COMENZAR_EDICION_PRODUCTO
+});
+
+const editarProductoExito = producto => ({
+    type: PRODUCTO_EDITADO_EXITO,
     payload: producto
+});
+
+const editarProductoError = () => ({
+    type: PRODUCTO_EDITADO_ERROR,
+    payload: true
 })

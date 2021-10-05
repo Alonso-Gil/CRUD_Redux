@@ -23,7 +23,6 @@ const confirmarEliminarProducto = id => {
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Yes, delete it',
-        cancelButtonText: 'Cancel'
     }).then((result) => {
         if(result.value) {
             // Pasar al action
@@ -35,6 +34,7 @@ const confirmarEliminarProducto = id => {
 // Función que redirige de forma programada
 const redireccionarEdicion = producto => {
     dispatch( obtenerProductoEditar(producto) );
+    // eslint-disable-next-line
     history.push('/productos/editar/${producto.id}')
 }
 
